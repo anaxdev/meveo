@@ -11,6 +11,11 @@ cache:
 services:
   - docker
 
+branches:
+  only:
+  - master
+  - develop
+
 env:
   global:
   # To enable BuildKit, set the DOCKER_BUILDKIT environment variable to 1
