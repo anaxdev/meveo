@@ -28,11 +28,23 @@ env:
   - POSTGRES_PASSWORD="meveo"
   - POSTGRES_TMP_CONTAINER_NAME="postgres_tmp"
 
-  # Image tag to build meveo docker image
-  #- DOCKER_IMAGE_TAG="dev-latest" # This variable is configured in Travis Job
-
 
 before_install:
+  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH, TAG=$TRAVIS_TAG"
+
+  - |
+    if [ "${TRAVIS_BRANCH}" == "master" ]; then
+      if [ ! -z "${TRAVIS_TAG}" ]; then
+        export DOCKER_IMAGE_TAG="latest"
+      else
+        echo "ERROR: The build of master branch is triggered on only when a tag is created."
+        exit 1
+      fi
+    else
+      export DOCKER_IMAGE_TAG="dev-anax"
+    fi
+
   # Install the latest Docker version (>= 19.03) in order to use BuildKit
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
