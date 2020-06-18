@@ -119,3 +119,10 @@ script:
 after_success:
   - docker push manaty/postgres-meveo:${DOCKER_IMAGE_TAG}
   - docker push manaty/wildfly-meveo:${DOCKER_IMAGE_TAG}
+  - |
+    if [ ! -z "${TRAVIS_TAG}" ]; then
+      docker tag manaty/postgres-meveo:${DOCKER_IMAGE_TAG} manaty/postgres-meveo:${TRAVIS_TAG}
+      docker push manaty/postgres-meveo:${TRAVIS_TAG}
+      docker tag manaty/wildfly-meveo:${DOCKER_IMAGE_TAG} manaty/wildfly-meveo:${TRAVIS_TAG}
+      docker push manaty/wildfly-meveo:${TRAVIS_TAG}
+    fi
