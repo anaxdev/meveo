@@ -15,7 +15,8 @@ branches:
   only:
   - master
   - develop
-  - /\d+\.(\.\d+)?(-\S*)?$/
+  # regular expressions for tag information
+  - /\d+\.(\.\d+)?(-\S*)?/
 
 env:
   global:
@@ -31,8 +32,8 @@ env:
 
 
 before_install:
-  - export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
-  - echo "TRAVIS_BRANCH=$TRAVIS_BRANCH, PR=$PR, BRANCH=$BRANCH, TAG=$TRAVIS_TAG"
+  #- export BRANCH=$(if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then echo $TRAVIS_BRANCH; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi)
+  - echo "TRAVIS_BRANCH=${TRAVIS_BRANCH}, TAG=${TRAVIS_TAG}"
 
   - |
     if [ "${TRAVIS_BRANCH}" == "master" ]; then
