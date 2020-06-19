@@ -16,7 +16,7 @@ branches:
   - master
   - develop
   # regular expressions for tag information
-  - /\d+\.\d+\.(\.\d+)?(-\S*)?/
+  - /\d+\.\d+(\.\d+)?(-\S*)?$/
 
 env:
   global:
